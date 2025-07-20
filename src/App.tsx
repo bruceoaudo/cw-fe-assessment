@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import type { TagListProps } from "./types";
+import type { HeaderProps, TagListProps } from "./types";
 
 function TagList({ title, tags }: TagListProps) {
   return (
@@ -77,9 +77,7 @@ function BoxArea108({
   );
 }
 
-function Header() {
-  const [searchClicked, setSearchClicked] = useState(false);
-
+function Header({ searchClicked, setSearchClicked }: HeaderProps) {
   return (
     <header className="flex items-center justify-between sm:px-6 px-2 py-4 bg-black border-b border-gray-800">
       <div className={searchClicked ? "hidden" : "flex items-center gap-2"}>
@@ -91,21 +89,29 @@ function Header() {
         <div className="text-white font-bold text-xl">Wortionary</div>
       </div>
 
-      <div className="flex items-center sm:gap-4 gap-3">
-        <div className="flex items-center sm:bg-gray-800 bg-transparent rounded-md px-3 w-2/3">
-          <Search className="text-gray-400 text-sm hidden sm:block" />
+      <div
+        className={`flex items-center sm:gap-4 gap-3 ${
+          searchClicked ? "w-full justify-start" : ""
+        }`}
+      >
+        <div
+          className={`flex items-center sm:bg-gray-800 bg-transparent rounded-md px-3 ${
+            searchClicked ? "w-full" : "w-2/3"
+          }`}
+        >
           <Search
             onClick={() => setSearchClicked((prev) => !prev)}
-            className="text-gray-400 text-sm block sm:hidden"
+            className={`text-gray-400 text-sm block sm:hidden ${
+              searchClicked ? "mr-2" : ""
+            }`}
           />
+          <Search className="text-gray-400 text-sm hidden sm:block" />
           <Input
             type="text"
             placeholder="search"
-            className={
-              searchClicked
-                ? "text-white !ring-0 !focus:ring-0 !focus-visible:ring-0 !border-0 !focus:border-0 !focus-visible:border-0 shadow-none"
-                : "text-white !ring-0 !focus:ring-0 !focus-visible:ring-0 !border-0 !focus:border-0 !focus-visible:border-0 shadow-none hidden"
-            }
+            className={`text-white !ring-0 !focus:ring-0 !focus-visible:ring-0 !border-0 !focus:border-0 !focus-visible:border-0 shadow-none ${
+              searchClicked ? "block w-full" : "hidden"
+            } sm:hidden`}
           />
           <Input
             type="text"
@@ -113,10 +119,13 @@ function Header() {
             className="text-white !ring-0 !focus:ring-0 !focus-visible:ring-0 !border-0 !focus:border-0 !focus-visible:border-0 shadow-none hidden sm:block"
           />
         </div>
-        <Avatar className="w-[32px] h-[32px]">
-          <AvatarImage src="/avatar.jpg" />
-          <AvatarFallback>U</AvatarFallback>
-        </Avatar>
+
+        {!searchClicked && (
+          <Avatar className="w-[32px] h-[32px]">
+            <AvatarImage src="/avatar.jpg" />
+            <AvatarFallback>U</AvatarFallback>
+          </Avatar>
+        )}
       </div>
     </header>
   );
@@ -131,10 +140,14 @@ export default function App() {
     "FOMO",
     "Ghosting",
   ]);
+  const [searchClicked, setSearchClicked] = useState(false);
 
   return (
     <main className="bg-black min-h-screen text-white">
-      <Header />
+      <Header
+        searchClicked={searchClicked}
+        setSearchClicked={setSearchClicked}
+      />
       <BoxArea97 />
       <TagList title="Trending" tags={tags} />
       <TagList title="For you" tags={tags} />
