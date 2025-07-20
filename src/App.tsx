@@ -107,6 +107,7 @@ function Header({ searchClicked, setSearchClicked }: HeaderProps) {
           />
           <Search className="text-gray-400 text-sm hidden sm:block" />
           <Input
+            autoFocus
             type="text"
             placeholder="search"
             className={`text-white !ring-0 !focus:ring-0 !focus-visible:ring-0 !border-0 !focus:border-0 !focus-visible:border-0 shadow-none ${
@@ -114,6 +115,7 @@ function Header({ searchClicked, setSearchClicked }: HeaderProps) {
             } sm:hidden`}
           />
           <Input
+            autoFocus
             type="text"
             placeholder="search"
             className="text-white !ring-0 !focus:ring-0 !focus-visible:ring-0 !border-0 !focus:border-0 !focus-visible:border-0 shadow-none hidden sm:block"
